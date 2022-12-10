@@ -36,15 +36,15 @@ class LibraryControl {
         Option option;
         do {
             printOptions();
-                option = getOption();
-                switch (option) {
-                    case ADD_BOOK -> addBook();
-                    case PRINT_BOOKS -> printBooks();
-                    case ADD_MAGAZINE -> addMagazine();
-                    case PRINT_MAGAZINES -> printMagazines();
-                    case PRINT_BOOKS_AND_MAGAZINES -> printBooksAndMagazines();
-                    case EXIT -> exit();
-                }
+            option = getOption();
+            switch (option) {
+                case ADD_BOOK -> addBook();
+                case PRINT_BOOKS -> printBooks();
+                case ADD_MAGAZINE -> addMagazine();
+                case PRINT_MAGAZINES -> printMagazines();
+                case PRINT_BOOKS_AND_MAGAZINES -> printBooksAndMagazines();
+                case EXIT -> exit();
+            }
 
         } while (option != Option.EXIT);
     }
@@ -148,7 +148,7 @@ class LibraryControl {
 
         @Override
         public String toString() {
-            return value + " - " +description;
+            return value + " - " + description;
         }
     }
 }
