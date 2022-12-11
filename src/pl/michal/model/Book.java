@@ -3,19 +3,16 @@ package pl.michal.model;
 import java.util.Objects;
 
 public class Book extends Publication {
+    public static final String TYPE = "Book";
     private String author;
     private int pages;
     private String isbn;
 
     public Book(int year, String title, String publisher, String author, int pages, String isbn) {
-        this(year, title, publisher, author, pages);
-        this.isbn = isbn;
-    }
-
-    public Book(int year, String title, String publisher, String author, int pages) {
         super(year, title, publisher);
         this.author = author;
         this.pages = pages;
+        this.isbn = isbn;
     }
 
     public String getAuthor() {
@@ -43,10 +40,13 @@ public class Book extends Publication {
     }
 
     @Override
+    public String toCsv() {
+        return TYPE + ";" + getTitle() + ";" + author + ";" + getPublisher() + ";" + getYear() + ";" + pages + ";" + isbn;
+    }
+
+    @Override
     public String toString() {
-        String toString = getTitle() + "; " + author + "; " + getYear() + "; " + pages + "; " + getPublisher();
-        if (isbn != null) toString = toString + "; " + isbn;
-        return toString;
+        return getTitle() + "; " + author + "; " + getPublisher() + "; " + getYear() + "; " + pages + "; " + isbn;
     }
 
     @Override

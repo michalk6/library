@@ -36,14 +36,13 @@ public class DataReader {
 
     public Book readAndCreateBook() {
         printer.printLine("Title:");
-        String title = input.nextLine();
+        String title = getString();
         printer.printLine("Author:");
-        String author = input.nextLine();
+        String author = getString();
         printer.printLine("Publisher:");
-        String publisher = input.nextLine();
+        String publisher = getString();
         printer.printLine("ISBN (optional):");
-        String isbn = input.nextLine();
-        if (isbn.equals("")) isbn = null;
+        String isbn = getString();
         printer.printLine("Release date:");
         int year = getInt();
         printer.printLine("Number of pages:");
@@ -54,17 +53,17 @@ public class DataReader {
 
     public Magazine readAndCreateMagazine() {
         printer.printLine("Title:");
-        String title = input.nextLine();
+        String title = getString();
         printer.printLine("Publisher:");
-        String publisher = input.nextLine();
+        String publisher = getString();
         printer.printLine("Language:");
-        String language = input.nextLine();
+        String language = getString();
         printer.printLine("Year:");
-        int year = input.nextInt();
+        int year = getInt();
         printer.printLine("Month:");
-        int month = input.nextInt();
+        int month = getInt();
         printer.printLine("Day:");
-        int day = input.nextInt();
+        int day = getInt();
 
         return new Magazine(year, title, publisher, month, day, language);
     }

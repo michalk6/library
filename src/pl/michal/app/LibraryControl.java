@@ -1,6 +1,7 @@
 package pl.michal.app;
 
 import pl.michal.exception.DataImportException;
+import pl.michal.exception.InvalidDataException;
 import pl.michal.exception.NoSuchOptionException;
 import pl.michal.io.ConsolePrinter;
 import pl.michal.io.DataReader;
@@ -25,7 +26,7 @@ class LibraryControl {
         try {
             library = fileManager.importData();
             printer.printLine("Imported data from file");
-        } catch (DataImportException e) {
+        } catch (DataImportException | InvalidDataException e) {
             printer.printLine(e.getMessage());
             printer.printLine("New database initialized");
             library = new Library();
@@ -73,7 +74,7 @@ class LibraryControl {
     private void addBook() {
         try {
             Book toAdd = dataReader.readAndCreateBook();
-            library.addBook(toAdd);
+            library.addPublication(toAdd);
         } catch (ArrayIndexOutOfBoundsException e) {
             printer.printLine(e.getMessage());
         }
@@ -86,7 +87,7 @@ class LibraryControl {
     private void addMagazine() {
         try {
             Magazine toAdd = dataReader.readAndCreateMagazine();
-            library.addMagazine(toAdd);
+            library.addPublication(toAdd);
         } catch (InputMismatchException e) {
             printer.printLine("Incorrect data has been given, magazine creation failed");
         } catch (ArrayIndexOutOfBoundsException e) {
