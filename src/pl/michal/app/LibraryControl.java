@@ -3,12 +3,14 @@ package pl.michal.app;
 import pl.michal.exception.DataImportException;
 import pl.michal.exception.InvalidDataException;
 import pl.michal.exception.NoSuchOptionException;
+import pl.michal.exception.UserAlreadyExistsException;
 import pl.michal.io.ConsolePrinter;
 import pl.michal.io.DataReader;
 import pl.michal.io.file.FileManager;
 import pl.michal.io.file.FileManagerBuilder;
 import pl.michal.model.Book;
 import pl.michal.model.Library;
+import pl.michal.model.LibraryUser;
 import pl.michal.model.Magazine;
 
 import java.util.InputMismatchException;
@@ -40,14 +42,31 @@ class LibraryControl {
             option = getOption();
             switch (option) {
                 case ADD_BOOK -> addBook();
-                case PRINT_BOOKS -> printBooks();
                 case ADD_MAGAZINE -> addMagazine();
+                case PRINT_BOOKS -> printBooks();
                 case PRINT_MAGAZINES -> printMagazines();
                 case PRINT_BOOKS_AND_MAGAZINES -> printBooksAndMagazines();
+                case DELETE_BOOK -> deleteBook();
+                case DELETE_MAGAZINE -> deleteMagazine();
+                case ADD_USER -> addUser();
+                case PRINT_USERS -> printUsers();
                 case EXIT -> exit();
             }
 
         } while (option != Option.EXIT);
+    }
+
+    private void printUsers() {
+        printer.printUsers(library.getLibraryUsers().values());
+    }
+
+    private void addUser() {
+        LibraryUser libraryUser = dataReader.readAndCreateLibraryUser();
+        try {
+            library.addUser(libraryUser);
+        } catch (UserAlreadyExistsException e) {
+            printer.printLine(e.getMessage());
+        }
     }
 
     private Option getOption() {
@@ -81,7 +100,15 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications());
+        printer.printBooks(library.getPublications().values());
+    }
+
+    private void deleteBook() {
+        Book toDelete = dataReader.readAndCreateBook();
+        if (library.removePublication(toDelete))
+            printer.printLine("Book has been deleted");
+        else
+            printer.printLine("There is no given book");
     }
 
     private void addMagazine() {
@@ -96,11 +123,19 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications());
+        printer.printMagazines(library.getPublications().values());
+    }
+
+    private void deleteMagazine() {
+        Magazine toDelete = dataReader.readAndCreateMagazine();
+        if (library.removePublication(toDelete))
+            printer.printLine("Magazine has been deleted");
+        else
+            printer.printLine("There is no given magazine");
     }
 
     private void printBooksAndMagazines() {
-        printer.printPublications(library.getPublications());
+        printer.printPublications(library.getPublications().values());
     }
 
     private void exit() {
@@ -118,10 +153,14 @@ class LibraryControl {
     public enum Option {
         EXIT("exit", 0),
         ADD_BOOK("Add new book", 1),
-        PRINT_BOOKS("display available books", 2),
-        ADD_MAGAZINE("add new magazine", 3),
+        ADD_MAGAZINE("add new magazine", 2),
+        PRINT_BOOKS("display available books", 3),
         PRINT_MAGAZINES("display available magazines", 4),
-        PRINT_BOOKS_AND_MAGAZINES("display available books and magazines", 5);
+        PRINT_BOOKS_AND_MAGAZINES("display available books and magazines", 5),
+        DELETE_BOOK("delete book", 6),
+        DELETE_MAGAZINE("delete magazine", 7),
+        ADD_USER("add library user", 8),
+        PRINT_USERS("display library users", 9);
 
         private final String description;
         private final int value;

@@ -1,6 +1,7 @@
 package pl.michal.io;
 
 import pl.michal.model.Book;
+import pl.michal.model.LibraryUser;
 import pl.michal.model.Magazine;
 
 import java.util.InputMismatchException;
@@ -66,5 +67,16 @@ public class DataReader {
         int day = getInt();
 
         return new Magazine(year, title, publisher, month, day, language);
+    }
+
+    public LibraryUser readAndCreateLibraryUser() {
+        printer.printLine("FirstName:");
+        String firstName = getString();
+        printer.printLine("LastName:");
+        String lastName = getString();
+        printer.printLine("PESEL:");
+        String pesel = getString();
+
+        return new LibraryUser(firstName, lastName, pesel);
     }
 }

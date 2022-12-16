@@ -3,18 +3,19 @@ package pl.michal.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Publication implements Serializable {
+public abstract class Publication implements Serializable, Comparable<Publication>, CsvConvertible {
     private int year;
-    private String title;
-    private String publisher;
 
+    private String title;
+
+    private String publisher;
     Publication(int year, String title, String publisher) {
         this.year = year;
         this.title = title;
         this.publisher = publisher;
     }
 
-    int getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -22,7 +23,7 @@ public abstract class Publication implements Serializable {
         this.year = year;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -30,15 +31,13 @@ public abstract class Publication implements Serializable {
         this.title = title;
     }
 
-    String getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
     void setPublisher(String publisher) {
         this.publisher = publisher;
     }
-
-    public abstract String toCsv();
 
     @Override
     public String toString() {
@@ -56,5 +55,10 @@ public abstract class Publication implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(year, title, publisher);
+    }
+
+    @Override
+    public int compareTo(Publication o) {
+        return title.compareToIgnoreCase(o.title);
     }
 }

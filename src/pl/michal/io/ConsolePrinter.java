@@ -1,16 +1,19 @@
 package pl.michal.io;
 
 import pl.michal.model.Book;
+import pl.michal.model.LibraryUser;
 import pl.michal.model.Magazine;
 import pl.michal.model.Publication;
 
+import java.util.Collection;
+
 public class ConsolePrinter {
 
-    public void printBooks(Publication[] publications) {
+    public void printBooks(Collection<Publication> publications) {
         int counter = 0;
         for (Publication publication : publications) {
             if (publication instanceof Book) {
-                printLine(publication.toString());
+                printLine(publication);
                 counter++;
             }
         }
@@ -18,11 +21,11 @@ public class ConsolePrinter {
             printLine("No books in the library");
     }
 
-    public void printMagazines(Publication[] publications) {
+    public void printMagazines(Collection<Publication> publications) {
         int counter = 0;
         for (Publication publication : publications) {
             if (publication instanceof Magazine) {
-                printLine(publication.toString());
+                printLine(publication);
                 counter++;
             }
         }
@@ -30,7 +33,7 @@ public class ConsolePrinter {
             printLine("No magazines in the library");
     }
 
-    public void printPublications(Publication[] publications) {
+    public void printPublications(Collection<Publication> publications) {
         printLine("Books:");
         printBooks(publications);
         printLine("");
@@ -38,7 +41,17 @@ public class ConsolePrinter {
         printMagazines(publications);
     }
 
-    public void printLine(String text) {
-        System.out.println(text);
+    public void printUsers(Collection<LibraryUser> users) {
+        int counter = 0;
+        for (LibraryUser user : users) {
+            printLine(user);
+            counter++;
+        }
+        if (counter == 0)
+            printLine("No users added");
+    }
+
+    public <T> void printLine(T text) {
+        System.out.println(text.toString().toUpperCase());
     }
 }

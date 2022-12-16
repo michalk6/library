@@ -1,34 +1,43 @@
 package pl.michal.model;
 
+import pl.michal.exception.PublicationAlreadyExistsException;
+import pl.michal.exception.UserAlreadyExistsException;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Library implements Serializable {
-    private static final int MAX_PUBLICATIONS = 1000;
-    private final Publication[] publications = new Publication[MAX_PUBLICATIONS];
-    private int publicationNumber = 0;
+    private Map<String, Publication> publications = new HashMap<>();
+    private Map<String, LibraryUser> libraryUsers = new HashMap<>();
 
-    public Publication[] getPublications() {
-        Publication[] result = new Publication[publicationNumber];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = publications[i];
-        }
-        return result;
+    public Map<String, Publication> getPublications() {
+        return publications;
+    }
+
+    public Map<String, LibraryUser> getLibraryUsers() {
+        return libraryUsers;
     }
 
     public void addPublication(Publication publication) {
-        if (publicationNumber >= MAX_PUBLICATIONS)
-            throw new ArrayIndexOutOfBoundsException("Maximum number of publications exceeded " + MAX_PUBLICATIONS);
-        publications[publicationNumber++] = publication;
+        if (publications.containsKey(publication.getTitle())) {
+            throw new PublicationAlreadyExistsException("Publication with given title already exists");
+        }
+        publications.put(publication.getTitle(), publication);
     }
 
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < publicationNumber; i++) {
-            builder.append(publications[i])
-                    .append("\n");
+    public void addUser(LibraryUser user) {
+        if (libraryUsers.containsKey(user.getPesel())) {
+            throw new UserAlreadyExistsException("User with given PESEL already exists");
         }
-        return builder.toString();
+        libraryUsers.put(user.getPesel(), user);
+    }
+
+    public boolean removePublication(Publication toRemove) {
+        if (publications.containsValue(toRemove)) {
+            publications.remove(toRemove.getTitle());
+            return true;
+        }
+        return false;
     }
 }
