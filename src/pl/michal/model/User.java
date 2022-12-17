@@ -14,27 +14,27 @@ public abstract class User implements Serializable, CsvConvertible {
         this.pesel = pesel;
     }
 
-    String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    String getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    void setPesel(String pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

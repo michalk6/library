@@ -8,11 +8,9 @@ import pl.michal.io.ConsolePrinter;
 import pl.michal.io.DataReader;
 import pl.michal.io.file.FileManager;
 import pl.michal.io.file.FileManagerBuilder;
-import pl.michal.model.Book;
-import pl.michal.model.Library;
-import pl.michal.model.LibraryUser;
-import pl.michal.model.Magazine;
+import pl.michal.model.*;
 
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -57,7 +55,9 @@ class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getLibraryUsers().values());
+        printer.printUsers(library.getSortedLibraryUser(
+                Comparator.comparing(User::getLastName, String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void addUser() {
@@ -100,7 +100,9 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublications(
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void deleteBook() {
@@ -123,7 +125,9 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublications(
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void deleteMagazine() {
@@ -135,7 +139,9 @@ class LibraryControl {
     }
 
     private void printBooksAndMagazines() {
-        printer.printPublications(library.getPublications().values());
+        printer.printPublications(library.getSortedPublications(
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void exit() {
