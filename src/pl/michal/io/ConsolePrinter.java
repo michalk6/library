@@ -10,26 +10,20 @@ import java.util.Collection;
 public class ConsolePrinter {
 
     public void printBooks(Collection<Publication> publications) {
-        int counter = 0;
-        for (Publication publication : publications) {
-            if (publication instanceof Book) {
-                printLine(publication);
-                counter++;
-            }
-        }
-        if (counter == 0)
+        long count = publications.stream()
+                .filter(publication -> publication instanceof Book)
+                .peek(this::printLine)
+                .count();
+        if (count == 0)
             printLine("No books in the library");
     }
 
     public void printMagazines(Collection<Publication> publications) {
-        int counter = 0;
-        for (Publication publication : publications) {
-            if (publication instanceof Magazine) {
-                printLine(publication);
-                counter++;
-            }
-        }
-        if (counter == 0)
+        long count = publications.stream()
+                .filter(publication -> publication instanceof Magazine)
+                .peek(this::printLine)
+                .count();
+        if (count == 0)
             printLine("No magazines in the library");
     }
 
@@ -42,13 +36,7 @@ public class ConsolePrinter {
     }
 
     public void printUsers(Collection<LibraryUser> users) {
-        int counter = 0;
-        for (LibraryUser user : users) {
-            printLine(user);
-            counter++;
-        }
-        if (counter == 0)
-            printLine("No users added");
+        users.forEach(this::printLine);
     }
 
     public <T> void printLine(T text) {

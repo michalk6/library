@@ -7,7 +7,6 @@ import pl.michal.model.*;
 
 import java.io.*;
 import java.util.Collection;
-import java.util.Scanner;
 
 class CsvFileManager implements FileManager {
     private static final String FILE_NAME = "Library.csv";
@@ -53,14 +52,14 @@ class CsvFileManager implements FileManager {
     }
 
     private void importPublications(Library library) {
-        try (Scanner fileReader = new Scanner(new File(FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                Publication publication = createPublicationFromCsvLine(line);
-                library.addPublication(publication);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createPublicationFromCsvLine)
+                    .forEach(library::addPublication);
         } catch (FileNotFoundException e) {
             throw new DataImportException("Cannot find file " + FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Cannot read file " + FILE_NAME);
         }
     }
 
@@ -97,14 +96,14 @@ class CsvFileManager implements FileManager {
     }
 
     private void importUsers(Library library) {
-        try (Scanner fileReader = new Scanner(new File(USERS_FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                LibraryUser user = createUserFromCsvLine(line);
-                library.addUser(user);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createUserFromCsvLine)
+                    .forEach(library::addUser);
         } catch (FileNotFoundException e) {
             throw new DataImportException("Cannot find file " + USERS_FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Cannot read file " + USERS_FILE_NAME);
         }
     }
 
