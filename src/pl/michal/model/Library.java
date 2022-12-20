@@ -30,6 +30,10 @@ public class Library implements Serializable {
         return list;
     }
 
+    public Optional<Publication> findPublicationByTitle(String title) {
+        return Optional.ofNullable(publications.get(title));
+    }
+
     public void addPublication(Publication publication) {
         if (publications.containsKey(publication.getTitle())) {
             throw new PublicationAlreadyExistsException("Publication with given title already exists");
